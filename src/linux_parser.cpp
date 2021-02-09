@@ -33,13 +33,13 @@ string LinuxParser::OperatingSystem() {
 }
 
 string LinuxParser::Kernel() {
-  string os, kernel;
+  string os, version, kernel;
   string line;
   std::ifstream stream(kProcDirectory + kVersionFilename);
   if (stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);
-    linestream >> os >> kernel;
+    linestream >> os >> version >> kernel;
   }
   return kernel;
 }
@@ -138,7 +138,7 @@ long LinuxParser::ActiveJiffies(int pid) {
         totalTime = utime + stime;
         totalTime = totalTime + cutime + cstime;
         seconds = uptime - (startTime/hertz);
-        pidCpuUsage = 1000 * ((totalTime/hertz)/seconds); 
+        pidCpuUsage = (totalTime/hertz)/seconds; 
         
         return pidCpuUsage;      
         }
@@ -223,8 +223,6 @@ int LinuxParser::RunningProcesses() {
   return runningProcesses;
 }
 
-// TODO: Read and return the command associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Command(int pid) {
   string line;
   string key;
@@ -300,7 +298,7 @@ string LinuxParser::User(int pid) {
   return nr1_return;
 }
 
-long LinuxParser::UpTime(int pid[[maybe_unused]]) {
+long LinuxParser::UpTime(int pid) {
   string nr1, nr2, nr3, nr4, nr5, nr6, nr7, nr8, nr9, nr10,nr11, nr12, nr13, nr14, nr15,nr16, nr17, nr18, nr19, nr20,nr21, nr22;
   string line;
   long proc_uptime;
@@ -310,7 +308,7 @@ long LinuxParser::UpTime(int pid[[maybe_unused]]) {
     std::istringstream linestream_proc(line);
     while (linestream_proc >> nr1 >>nr2 >>nr3 >>nr4>> nr5>> nr6>> nr7>> nr8>> nr9>> nr10>>nr11>> nr12>> nr13>> nr14>> nr15>> nr16>> nr17>> nr18>> nr19>> nr20>>nr21>> nr22) {
       proc_uptime = long(std::stoi(nr22)/sysconf(_SC_CLK_TCK));
-      return proc_uptime;
+      return UpTime() - proc_uptime;
     }
   }
   return 0;

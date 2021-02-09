@@ -9,6 +9,10 @@ string Format::ElapsedTime(long seconds) {
     long hours = minutes / 60;
     long secondsElapsed = int(seconds%60);
     minutes = int(minutes%60);
-    string result = std::to_string(hours) + ":" + std::to_string(minutes) + ":" + std::to_string(secondsElapsed);
+    string result = ParseTime(hours) + ":" + ParseTime(minutes) + ":" + ParseTime(secondsElapsed);
     return result;
+}
+
+string Format::ParseTime(long time){
+    return time < 10 ? "0" + std::to_string(time) : std::to_string(time);
 }

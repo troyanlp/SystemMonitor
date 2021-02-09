@@ -24,6 +24,7 @@ vector<Process>& System::Processes() {
     vector<int> pids = LinuxParser::Pids();
     int pids_size= pids.size();
     vector<int> aux_sort;
+    processes_.clear();
     for (auto i = 0; i<pids_size; i++){
         Process process = Process(pids[i]);
         processes_.push_back(process);
