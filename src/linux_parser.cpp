@@ -138,7 +138,7 @@ long LinuxParser::ActiveJiffies(int pid) {
         totalTime = utime + stime;
         totalTime = totalTime + cutime + cstime;
         seconds = uptime - (startTime/hertz);
-        pidCpuUsage = 10 * (totalTime/hertz)/seconds; 
+        pidCpuUsage = (totalTime/hertz)/seconds; 
         
         return pidCpuUsage;      
         }
