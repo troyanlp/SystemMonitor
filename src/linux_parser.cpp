@@ -114,7 +114,7 @@ long LinuxParser::Jiffies() {
   return activeTime+idleTime; 
 }
 
-long LinuxParser::ActiveJiffies(int pid) {
+float LinuxParser::ActiveJiffies(int pid) {
   string pidString;
   string line;
   string nr1, nr2, nr3, nr4, nr5, nr6, nr7, nr8, nr9, nr10,
